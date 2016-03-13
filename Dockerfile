@@ -20,4 +20,8 @@ RUN cp /usr/bin/unionfs-fuse AppImageKit-5/binary-dependencies/armv7l/
 RUN apt-get install python
 RUN cd AppImageKit-5 && ./build.sh
 
+RUN echo -e '#include <stdio.h> \nint main() { printf("HI\n"); return 0; }' > hi.c
+RUN echo gcc hi.c -o hi
+RUN ./hi
+
 RUN [ "cross-build-end" ]  
