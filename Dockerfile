@@ -20,8 +20,22 @@ RUN cp /usr/bin/unionfs-fuse AppImageKit-5/binary-dependencies/armv7l/
 RUN apt-get install python
 RUN cd AppImageKit-5 && ./build.sh
 
-RUN echo -e '#include <stdio.h> \nint main() { printf("HI\n"); return 0; }' > hi.c
-RUN echo gcc hi.c -o hi
+RUN printf "#include <stdio.h> \n int main() { printf(\"HI\"); return 0; }" > hi.c
+RUN cat hi.c
+RUN /usr/bin/gcc-4.7 hi.c -o hi
 RUN ./hi
 
+RUN mkdir hi.AppDir
+RUN cp AppImageKit-5/AppRun hi.AppDir/
+RUN mkdir hi.AppDir/usr
+RUN mkdir hi.AppDir/usr/bin
+RUN cp hi hi.AppDir/usr/bin/hi
+RUN mkdir hi.AppDir/usr/lib
+RUN printf "[Desktop Entry]\nName=hi\nExec=hi\nIcon=hi" > hi.AppDir/hi.desktop
+
+RUN ./hi.AppDir/AppRun
+
+#RUN export APP=hi && ./AppImageAssistant.AppDir/package $APP.AppDir $APP.AppImage && ./APP.AppImage
+#RUN AppImageKit-5/
 RUN [ "cross-build-end" ]  
+
