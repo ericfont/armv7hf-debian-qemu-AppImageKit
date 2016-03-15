@@ -1,11 +1,12 @@
 # note: latest is jessie
 FROM resin/armv7hf-debian-qemu
 
+ADD 5.tar.gz /
+VOLUME [ "/AppImageKit-5" ]
+
 RUN [ "cross-build-start" ]
 
 #ADD https://github.com/probonopd/AppImageKit/archive/5.tar.gz 5.tar.gz
-ADD 5.tar.gz /
-
 # no regular gcc, but CMAKE needs to know to use 4.7
 RUN apt-get clean && apt-get update && apt-get install -y python fuse libglade2-0 libvte9 ruby-vte unionfs-fuse
 
